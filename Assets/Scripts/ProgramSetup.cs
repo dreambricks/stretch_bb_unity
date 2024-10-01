@@ -16,7 +16,8 @@ public class ProgramSetup : MonoBehaviour
     public SetupUI setupUI;
     [SerializeField] private GameObject render;
 
-    public InputField serialPort;
+    public InputField serialPortReceiver;
+    public InputField serialPortSender;
     public InputField baudRate;
     public Dropdown masterOrSlave;
     public InputField masterExtraDelay;
@@ -41,7 +42,8 @@ public class ProgramSetup : MonoBehaviour
         VideoSettings videoSettings = new VideoSettings();
 
 
-        networkDisplay.SerialPortReceiver = (serialPort.text == "") ? "COM4" : serialPort.text;
+        networkDisplay.SerialPortReceiver = (serialPortReceiver.text == "") ? "COM4" : serialPortReceiver.text;
+        networkDisplay.SerialPortSender = (serialPortSender.text == "") ? "COM7" : serialPortSender.text;
         networkDisplay.Baudrate = (baudRate.text == "") ? 9600 : int.Parse(baudRate.text);
         int selectedIndex = masterOrSlave.value;
         networkDisplay.MasterOrSlave = masterOrSlave.options[selectedIndex].text;
