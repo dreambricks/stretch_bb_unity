@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.IO;
 using System.IO.Ports;
 using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 public class ProgramSetup : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class ProgramSetup : MonoBehaviour
     public Dropdown masterOrSlave;
     public InputField masterExtraDelay;
 
-    public InputField fileName;
+    public InputField fileNameA;
+    public InputField fileNameB;
+    public InputField filenameStatic;
     public InputField displayQuantity;
     public Dropdown position;
     public InputField videoSizeW;
@@ -45,7 +48,9 @@ public class ProgramSetup : MonoBehaviour
         networkDisplay.MasterExtraDelay = (masterExtraDelay.text == "") ? "0" : masterExtraDelay.text;
         displaySetup.NetworkDisplay = networkDisplay;
 
-        videoSettings.Filename = fileName.text;
+        videoSettings.FilenameB = fileNameB.text;
+        videoSettings.FilenameA = fileNameA.text;
+        videoSettings.FilenameStatic = filenameStatic.text;
         videoSettings.DisplayQuantity = (displayQuantity.text == "") ? "0" : displayQuantity.text;
         int positionIndex = position.value;
         videoSettings.Position = position.options[positionIndex].text;
@@ -83,7 +88,7 @@ public class ProgramSetup : MonoBehaviour
         player.SetActive(true);
         render.SetActive(true);
 
-        setupUI.gameObject.SetActive(false);
+        SceneManager.LoadScene("QuadSceneTests");
 
 
     }

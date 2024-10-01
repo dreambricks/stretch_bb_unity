@@ -1,79 +1,116 @@
-using System;
 using UnityEngine;
 using UnityEngine.Video;
+using System;
+
 
 public class VideoManagerSender : MonoBehaviour
 {
     public VideoPlayer player;
     public VideoPlayer playerB;
-    private float masterDelay;
-    private bool isMessageSent;
-    private bool isPlaying;
-    private bool prevIsPlaying;
-
-    DateTime timePassed;
-    DateTime playStartTime;
-    public ArduinoCommunicationSender arduinoCommunicationSender;
     public ArduinoCommunicationReceiver arduinoCommunicationReceiver;
-
+    public ArduinoCommunicationSender arduinoCommunicationSender;
+    public GameObject renderStatic;
+    public GameObject renderVideoA;
+    public GameObject renderVideoB;
+    private DateTime lastPlayTime;
+    private bool canPlay = true;
+    private float masterDelay;
 
     void OnEnable()
     {
-        Debug.Log("OnEnable");
+        playerB.isLooping = false;
+        player.isLooping = false;
+        player.loopPointReached += OnVideoFinished;
+        playerB.loopPointReached += onVideoBFinished;
+
         DisplaySetup loadedData = SaveManager.LoadFromJsonFile<DisplaySetup>("display_data.json");
         masterDelay = float.Parse(loadedData.NetworkDisplay.MasterExtraDelay);
+    }
 
-        isMessageSent = false;
-        isPlaying = false;
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        renderStatic.gameObject.SetActive(true);
+        renderVideoA.gameObject.SetActive(false);
+        renderVideoB.gameObject.SetActive(false);
+    }
 
-        Debug.Log("Master Delay: " + masterDelay);
-
+    void onVideoBFinished(VideoPlayer vp)
+    {
+        renderStatic.gameObject.SetActive(true);
+        renderVideoA.gameObject.SetActive(false);
+        renderVideoB.gameObject.SetActive(false);
     }
 
     void Update()
     {
         PlayVideo();
+
+        if ((DateTime.Now - lastPlayTime).TotalSeconds >= 20)
+        {
+            canPlay = true;
+        }
     }
+
 
     void PlayVideo()
     {
-
-        if (!isMessageSent && player.isPlaying == false && isPlaying == false)
+        string data = arduinoCommunicationReceiver.GetLastestNewData(1.0f);
+        int value;
+        if (int.TryParse(data, out value))
         {
-            arduinoCommunicationSender.SendMessageToSlaves("1");
-            timePassed = DateTime.Now;
-            isMessageSent = true;
-
-            Debug.Log("Enviou a mensagem: " + player.isPlaying);
-        }
-
-        if ((DateTime.Now - timePassed).TotalSeconds >= masterDelay && isMessageSent && !isPlaying)
-        {
-
-            player.SetDirectAudioMute(0, true);
-            player.Play();
-            isMessageSent = false;
-            isPlaying = true;
-            Debug.Log("Play: " + player.isPlaying);
-        }
-
-        if (player.isPlaying == false && prevIsPlaying == true)
-        {
-            Debug.Log("Over");
-            Debug.Log((DateTime.Now - playStartTime).TotalSeconds);
-            if ((DateTime.Now - playStartTime).TotalSeconds > 2)
+            if (value == 1)
             {
-                isPlaying = false;
-                Debug.Log("isPlaying = false");
+                if (player.isPlaying == false && playerB.isPlaying == false)
+                {
+                    arduinoCommunicationReceiver.GetLastestData();
+                    if (canPlay)
+                    {
+                        player.time = 0;
+                        player.SetDirectAudioMute(0, false);
+                        renderVideoA.gameObject.SetActive(true);
+                        renderVideoB.gameObject.SetActive(false);
+                        player.Play();
+
+                        lastPlayTime = DateTime.Now;
+                        canPlay = false;
+                        Invoke("SendMessage1ToSlaves", masterDelay);
+                        Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
+                    }
+
+                }
+            }
+            else if (value == 2)
+            {
+                if (player.isPlaying == false && playerB.isPlaying == false)
+                {
+                    arduinoCommunicationReceiver.GetLastestData();
+                    if (canPlay)
+                    {
+                        playerB.time = 0;
+                        playerB.SetDirectAudioMute(0, false);
+                        renderVideoA.gameObject.SetActive(false);
+                        renderVideoB.gameObject.SetActive(true);
+                        playerB.Play();
+
+                        lastPlayTime = DateTime.Now;
+                        canPlay = false;
+                        Invoke("SendMessage2ToSlaves", masterDelay);
+                        Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
+                    }
+
+                }
             }
         }
+    }
+    void SendMessage1ToSlaves()
+    {
+        int message = 1;
+        arduinoCommunicationSender.SendMessageToSlaves(message.ToString());
+    }
 
-        if (player.isPlaying == true && prevIsPlaying == false)
-        {
-            playStartTime = DateTime.Now;
-            Debug.Log("Started");
-        }
-
-        prevIsPlaying = player.isPlaying;
+    void SendMessage2ToSlaves()
+    {
+        int message = 2;
+        arduinoCommunicationSender.SendMessageToSlaves(message.ToString());
     }
 }

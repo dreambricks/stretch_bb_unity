@@ -11,8 +11,6 @@ public class VideoManagerReceiver : MonoBehaviour
     public GameObject renderStatic;
     public GameObject renderVideoA;
     public GameObject renderVideoB;
-    private DateTime lastPlayTime;
-    private bool canPlay = true;
 
     void OnEnable()
     {
@@ -39,11 +37,6 @@ public class VideoManagerReceiver : MonoBehaviour
     void Update()
     {
         PlayVideo();
-
-        if ((DateTime.Now - lastPlayTime).TotalSeconds >= 20)
-        {
-            canPlay = true;
-        }
     }
 
 
@@ -58,19 +51,12 @@ public class VideoManagerReceiver : MonoBehaviour
                 if (player.isPlaying == false && playerB.isPlaying == false)
                 {
                     arduinoCommunicationReceiver.GetLastestData();
-                    if (canPlay)
-                    {
-                        player.time = 0;
-                        player.SetDirectAudioMute(0, false);
-                        renderVideoA.gameObject.SetActive(true);
-                        renderVideoB.gameObject.SetActive(false);
-                        player.Play();
 
-                        lastPlayTime = DateTime.Now;
-                        canPlay = false;
-                        Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
-                    }
-
+                    player.time = 0;
+                    player.SetDirectAudioMute(0, false);
+                    renderVideoA.gameObject.SetActive(true);
+                    renderVideoB.gameObject.SetActive(false);
+                    player.Play();
                 }
             }
             else if (value == 2)
@@ -78,19 +64,12 @@ public class VideoManagerReceiver : MonoBehaviour
                 if (player.isPlaying == false && playerB.isPlaying == false)
                 {
                     arduinoCommunicationReceiver.GetLastestData();
-                    if (canPlay)
-                    {
-                        playerB.time = 0;
-                        playerB.SetDirectAudioMute(0, false);
-                        renderVideoA.gameObject.SetActive(false);
-                        renderVideoB.gameObject.SetActive(true);
-                        playerB.Play();
 
-                        lastPlayTime = DateTime.Now;
-                        canPlay = false;
-                        Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
-                    }
-
+                    playerB.time = 0;
+                    playerB.SetDirectAudioMute(0, false);
+                    renderVideoA.gameObject.SetActive(false);
+                    renderVideoB.gameObject.SetActive(true);
+                    playerB.Play();
                 }
             }
         }

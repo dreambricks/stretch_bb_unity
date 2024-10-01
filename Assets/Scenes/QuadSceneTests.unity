@@ -399,10 +399,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5c4797ef487d8b42809ed34f8179e3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  playerB: {fileID: 0}
-  arduinoCommunicationSender: {fileID: 1132005338}
+  player: {fileID: 1389088852}
+  playerB: {fileID: 1638926731}
   arduinoCommunicationReceiver: {fileID: 127194236}
+  arduinoCommunicationSender: {fileID: 1132005338}
+  renderStatic: {fileID: 963907995}
+  renderVideoA: {fileID: 2118487665}
+  renderVideoB: {fileID: 550773038}
 --- !u!1 &109121643
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14fe71f8ad62f1544bba9ef3136b8e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: COM5
+  port: COM10
   baudrate: 9600
   startReceiving: 1
   printToConsole: 0
@@ -5260,8 +5263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf65b4da3f4110b4190e5af225203e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1389088852}
+  playerA: {fileID: 1389088852}
   playerB: {fileID: 1638926731}
+  rawImage: {fileID: 1077047618}
   videoManagerSender: {fileID: 91133133}
   videoManagerReceiver: {fileID: 2014938713}
   arduinoCommunicationReceiver: {fileID: 127194236}
@@ -5809,7 +5813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8ef72f1dc7f7c46b9eef236264abd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  port: COM7
+  port: COM5
   baudrate: 9600
 --- !u!1 &1171253846
 GameObject:
@@ -6830,7 +6834,9 @@ MonoBehaviour:
   baudRate: {fileID: 716421587}
   masterOrSlave: {fileID: 731066603}
   masterExtraDelay: {fileID: 14449102}
-  fileName: {fileID: 373765773}
+  fileNameA: {fileID: 373765773}
+  fileNameB: {fileID: 1385082884}
+  fileNameStatic: {fileID: 761551323}
   displayQuantity: {fileID: 1220399030}
   position: {fileID: 1259504236}
   videoSizeW: {fileID: 1389519023}
@@ -6996,7 +7002,7 @@ GameObject:
   - component: {fileID: 1389088853}
   - component: {fileID: 1389088852}
   m_Layer: 0
-  m_Name: Video Player
+  m_Name: Video PlayerA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7209,7 +7215,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1407582696}
   m_Layer: 0
-  m_Name: Filename
+  m_Name: FilenameA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7541,7 +7547,9 @@ MonoBehaviour:
   baudRate: {fileID: 716421587}
   masterOrSlave: {fileID: 731066603}
   masterExtraDelay: {fileID: 14449102}
-  fileName: {fileID: 373765773}
+  fileNameA: {fileID: 373765773}
+  fileNameB: {fileID: 1385082884}
+  filenameStatic: {fileID: 761551323}
   displayQuantity: {fileID: 1220399030}
   position: {fileID: 1259504236}
   videoSizeW: {fileID: 1389519023}

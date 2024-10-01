@@ -12,7 +12,7 @@ public class OpenFile : MonoBehaviour
 
     public void OnClickOpen()
     {
-        string[] paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", "mp4", false);
+        string[] paths = StandaloneFileBrowser.OpenFilePanel("Open File", "", "", false);
         if (paths.Length > 0)
         {
             StartCoroutine(OutputRoutineOpen(new System.Uri(paths[0]).AbsolutePath));

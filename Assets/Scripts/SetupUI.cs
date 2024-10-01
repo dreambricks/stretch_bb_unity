@@ -17,7 +17,9 @@ public class SetupUI : MonoBehaviour
     public Dropdown masterOrSlave;
     public InputField masterExtraDelay;
 
-    public InputField fileName;
+    public InputField fileNameA;
+    public InputField fileNameB;
+    public InputField fileNameStatic;
     public InputField displayQuantity;
     public Dropdown position;
     public InputField videoSizeW;
@@ -43,12 +45,14 @@ public class SetupUI : MonoBehaviour
         DisplaySetup loadedData = LoadFromJsonFile<DisplaySetup>("display_data.json");
 
         serialPort.text = loadedData.NetworkDisplay.SerialPortReceiver;
-        
+
         baudRate.text = loadedData.NetworkDisplay.Baudrate.ToString();
         SetDropdownValueByName(masterOrSlave, loadedData.NetworkDisplay.MasterOrSlave);
         masterExtraDelay.text = loadedData.NetworkDisplay.MasterExtraDelay;
 
-        fileName.text = loadedData.VideoSettings.Filename;
+        fileNameA.text = loadedData.VideoSettings.FilenameA;
+        fileNameB.text = loadedData.VideoSettings.FilenameB;
+        fileNameStatic.text = loadedData.VideoSettings.FilenameStatic;
         displayQuantity.text = loadedData.VideoSettings.DisplayQuantity;
         SetDropdownValueByName(position, loadedData.VideoSettings.Position);
 

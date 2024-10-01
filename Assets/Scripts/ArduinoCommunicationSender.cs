@@ -26,7 +26,7 @@ public class ArduinoCommunicationSender : MonoBehaviour
             try
             {
                 serialPort.Write(message);
-
+                Debug.Log("Sending message to Slaves: " + message);
             }
             catch (System.Exception e)
             {
