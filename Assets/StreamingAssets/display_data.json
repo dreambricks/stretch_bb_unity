@@ -1,1 +1,28 @@
-{"NetworkDisplay":{"MasterOrSlave":"Master","MasterExtraDelay":"0","SerialPortSender":"COM5","SerialPortReceiver":"COM10","Baudrate":9600},"VideoSettings":{"FilenameA":"C:/Users/julio/Documents/db/prj/video_wall/devel/python/video_wall_python/video_right.mp4","FilenameB":"C:/Users/julio/Documents/db/prj/video_wall/devel/python/video_wall_python/video_left.mp4","FilenameStatic":"C:/Users/julio/Downloads/1.png","Position":"1","VideoSize":["1920","1080"],"Pivot":["0.5","0.5"],"DisplayQuantity":"0","SoundControl":"true","CountPlayed":"56"}}
+{
+    "NetworkDisplay": {
+        "MasterOrSlave": "Master",
+        "MasterExtraDelay": "0",
+        "SerialPortSender": "COM5",
+        "SerialPortReceiver": "COM10",
+        "Baudrate": 9600
+    },
+    "VideoSettings": {
+        "FilenameA": "C:/Users/julio/Documents/db/prj/video_wall/devel/python/video_wall_python/video_right.mp4",
+        "FilenameB": "C:/Users/julio/Documents/db/prj/video_wall/devel/python/video_wall_python/video_left.mp4",
+        "FilenameStatic": "C:/Users/julio/Downloads/1.png",
+        "Position": "1",
+        "VideoSize": [
+            "1920",
+            "1080"
+        ],
+        "Pivot": [
+            "0.5",
+            "0.5"
+        ],
+        "DisplayQuantity": "0",
+        "SoundControl": "true",
+        "CountPlayed": "56",
+        "PauseTime": "20",
+        "IdleTime": "60"
+    }
+}

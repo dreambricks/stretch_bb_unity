@@ -12,9 +12,11 @@ public class VideoManagerSender : MonoBehaviour
     public GameObject renderStatic;
     public GameObject renderVideoA;
     public GameObject renderVideoB;
-    private DateTime lastPlayTime;
+    public DateTime lastPlayTime;
     private bool canPlay = true;
     private float masterDelay;
+    public float idleTime = 60f;
+    public float pauseTime = 20f;
 
     void OnEnable()
     {
@@ -25,6 +27,8 @@ public class VideoManagerSender : MonoBehaviour
 
         DisplaySetup loadedData = SaveManager.LoadFromJsonFile<DisplaySetup>("display_data.json");
         masterDelay = float.Parse(loadedData.NetworkDisplay.MasterExtraDelay);
+        idleTime = float.Parse(loadedData.VideoSettings.IdleTime);
+        pauseTime = float.Parse(loadedData.VideoSettings.PauseTime);
     }
 
     void OnVideoFinished(VideoPlayer vp)
@@ -44,10 +48,26 @@ public class VideoManagerSender : MonoBehaviour
     void Update()
     {
         PlayVideo();
+        CheckPlay();
+        CheckIdle();
+    }
 
-        if ((DateTime.Now - lastPlayTime).TotalSeconds >= 20)
+    void CheckPlay()
+    {
+        if ((DateTime.Now - lastPlayTime).TotalSeconds >= pauseTime)
         {
             canPlay = true;
+        }
+    }
+
+    void CheckIdle()
+    {
+        if ((DateTime.Now - lastPlayTime).TotalSeconds >= idleTime)
+        {
+            if (player.isPlaying == false && playerB.isPlaying == false)
+            {
+                StartPlayVideo(player, "SendMessage1ToSlaves");
+            }
         }
     }
 
@@ -60,55 +80,53 @@ public class VideoManagerSender : MonoBehaviour
         {
             if (value == 1)
             {
-                if (player.isPlaying == false && playerB.isPlaying == false)
-                {
-                    arduinoCommunicationReceiver.GetLastestData();
-                    if (canPlay)
-                    {
-                        player.time = 0;
-                        player.SetDirectAudioMute(0, false);
-                        renderVideoA.gameObject.SetActive(true);
-                        renderVideoB.gameObject.SetActive(false);
-                        player.Play();
-
-                        lastPlayTime = DateTime.Now;
-                        canPlay = false;
-                        Invoke("SendMessage1ToSlaves", masterDelay);
-                        Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
-                    }
-
-                }
+                StartPlayVideo(player, "SendMessage1ToSlaves");
             }
             else if (value == 2)
             {
-                if (player.isPlaying == false && playerB.isPlaying == false)
-                {
-                    arduinoCommunicationReceiver.GetLastestData();
-                    if (canPlay)
-                    {
-                        playerB.time = 0;
-                        playerB.SetDirectAudioMute(0, false);
-                        renderVideoA.gameObject.SetActive(false);
-                        renderVideoB.gameObject.SetActive(true);
-                        playerB.Play();
-
-                        lastPlayTime = DateTime.Now;
-                        canPlay = false;
-                        Invoke("SendMessage2ToSlaves", masterDelay);
-                        Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
-                    }
-
-                }
+                StartPlayVideo(playerB, "SendMessage2ToSlaves");
             }
         }
     }
-    void SendMessage1ToSlaves()
+
+    void StartPlayVideo(VideoPlayer vp, string methodName)
+    {
+        if (player.isPlaying == false && playerB.isPlaying == false)
+        {
+            arduinoCommunicationReceiver.GetLastestData();
+            if (canPlay)
+            {
+                vp.time = 0;
+                vp.SetDirectAudioMute(0, false);
+                if (methodName == "SendMessage1ToSlaves")
+                {
+                    renderVideoA.gameObject.SetActive(true);
+                    renderVideoB.gameObject.SetActive(false);
+                }
+                else if (methodName == "SendMessage2ToSlaves")
+                {
+                    renderVideoA.gameObject.SetActive(false);
+                    renderVideoB.gameObject.SetActive(true);
+                }
+
+                vp.Play();
+
+                lastPlayTime = DateTime.Now;
+                canPlay = false;
+                Invoke(methodName, masterDelay);
+                Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
+            }
+
+        }
+    }
+
+    public void SendMessage1ToSlaves()
     {
         int message = 1;
         arduinoCommunicationSender.SendMessageToSlaves(message.ToString());
     }
 
-    void SendMessage2ToSlaves()
+    public void SendMessage2ToSlaves()
     {
         int message = 2;
         arduinoCommunicationSender.SendMessageToSlaves(message.ToString());
