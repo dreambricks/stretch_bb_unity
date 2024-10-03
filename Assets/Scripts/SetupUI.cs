@@ -29,6 +29,8 @@ public class SetupUI : MonoBehaviour
     public InputField pivotY;
     public InputField soundControl;
     public InputField countPlayed;
+    public InputField idleTime;
+    public InputField pauseTime;
 
 
     // Start is called before the first frame update
@@ -66,6 +68,9 @@ public class SetupUI : MonoBehaviour
 
         soundControl.text = loadedData.VideoSettings.SoundControl;
         countPlayed.text = loadedData.VideoSettings.CountPlayed;
+
+        idleTime.text = loadedData.VideoSettings.IdleTime;
+        pauseTime.text = loadedData.VideoSettings.PauseTime;
     }
 
     private T LoadFromJsonFile<T>(string fileName)

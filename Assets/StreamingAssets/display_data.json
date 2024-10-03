@@ -1,15 +1,16 @@
 {
     "NetworkDisplay": {
-        "MasterOrSlave": "Master",
+        "MasterOrSlave": "Slave",
         "MasterExtraDelay": "0",
         "SerialPortSender": "COM5",
-        "SerialPortReceiver": "COM10",
-        "Baudrate": 9600
+        "SerialPortReceiver": "COM7",
+        "Baudrate": 115200
     },
     "VideoSettings": {
         "FilenameA": "C:/Users/julio/Documents/db/prj/video_wall/devel/python/video_wall_python/video_right.mp4",
         "FilenameB": "C:/Users/julio/Documents/db/prj/video_wall/devel/python/video_wall_python/video_left.mp4",
         "FilenameStatic": "C:/Users/julio/Downloads/1.png",
+        "DisplayQuantity": "0",
         "Position": "1",
         "VideoSize": [
             "1920",
@@ -19,10 +20,9 @@
             "0.5",
             "0.5"
         ],
-        "DisplayQuantity": "0",
         "SoundControl": "true",
         "CountPlayed": "56",
-        "PauseTime": "20",
-        "IdleTime": "60"
+        "IdleTime": "25",
+        "PauseTime": "300"
     }
 }

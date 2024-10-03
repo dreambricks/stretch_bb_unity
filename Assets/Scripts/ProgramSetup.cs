@@ -33,6 +33,8 @@ public class ProgramSetup : MonoBehaviour
     public InputField pivotY;
     public InputField soundControl;
     public InputField countPlayed;
+    public InputField idleTime;
+    public InputField pauseTime;
 
 
     public void SaveSettings()
@@ -64,7 +66,10 @@ public class ProgramSetup : MonoBehaviour
         videoSettings.Pivot[1] = (pivotY.text == "") ? "0" : pivotY.text;
         videoSettings.SoundControl = (soundControl.text == "") ? "false" : soundControl.text;
         videoSettings.CountPlayed = (countPlayed.text == "") ? "3" : countPlayed.text;
+        videoSettings.IdleTime = (idleTime.text == "") ? "300" : idleTime.text;
+        videoSettings.PauseTime = (pauseTime.text == "") ? "20" : pauseTime.text;
         displaySetup.VideoSettings = videoSettings;
+
 
         if (arduinoCommunicationReceiver.serialPort != null)
         {
