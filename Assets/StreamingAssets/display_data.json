@@ -1,9 +1,9 @@
 {
     "NetworkDisplay": {
-        "MasterOrSlave": "Slave",
+        "MasterOrSlave": "Master",
         "MasterExtraDelay": "0",
-        "SerialPortSender": "COM5",
-        "SerialPortReceiver": "COM7",
+        "SerialPortSender": "COM7",
+        "SerialPortReceiver": "COM6",
         "Baudrate": 115200
     },
     "VideoSettings": {
@@ -22,7 +22,7 @@
         ],
         "SoundControl": "true",
         "CountPlayed": "56",
-        "IdleTime": "25",
-        "PauseTime": "300"
+        "IdleTime": "300",
+        "PauseTime": "20"
     }
 }

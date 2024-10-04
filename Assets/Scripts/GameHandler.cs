@@ -13,6 +13,8 @@ public class GameHandler : MonoBehaviour
     public GameObject renderVideo;
     public GameObject renderStatic;
 
+    public ArduinoCommunicationSender arduinoCommunicationSender;
+
 
     private bool ativo = false;
     void Awake()
@@ -39,6 +41,7 @@ public class GameHandler : MonoBehaviour
     void Update()
     {
         OpenMenuSettings();
+        TestArduino();
     }
 
     private T LoadFromJsonFile<T>(string fileName)
@@ -67,6 +70,17 @@ public class GameHandler : MonoBehaviour
             renderVideo.SetActive(!ativo);
             player.gameObject.SetActive(!ativo);
         }
+    }
+
+    public void TestArduino()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            char[] dataSend = { '1', '2' };
+            arduinoCommunicationSender.SendMessageToSlaves(dataSend, 1, 1);
+            Debug.Log("Test Arduino");
+        }
+
     }
 
 }

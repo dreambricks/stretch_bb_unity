@@ -408,6 +408,7 @@ MonoBehaviour:
   renderVideoB: {fileID: 550773038}
   idleTime: 60
   pauseTime: 20
+  dataToSend: 31003200
 --- !u!1 &109121643
 GameObject:
   m_ObjectHideFlags: 0
@@ -3078,6 +3079,7 @@ MonoBehaviour:
   playerB: {fileID: 1638926731}
   renderVideo: {fileID: 2118487665}
   renderStatic: {fileID: 963907995}
+  arduinoCommunicationSender: {fileID: 1132005338}
 --- !u!1 &537959777
 GameObject:
   m_ObjectHideFlags: 0
@@ -6607,6 +6609,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: COM5
   baudrate: 9600
+  startReceiving: 1
+  printToConsole: 0
+  data: 
 --- !u!1 &1158703992
 GameObject:
   m_ObjectHideFlags: 0

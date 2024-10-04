@@ -9,7 +9,7 @@ public class TestArduino : MonoBehaviour
 
     public void SendTest()
     {
-        arduinoCommunicationSender.SendMessageToSlaves("1");
+
         Debug.Log("aa");
     }
 

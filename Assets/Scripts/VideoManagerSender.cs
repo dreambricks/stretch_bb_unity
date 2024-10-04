@@ -17,6 +17,7 @@ public class VideoManagerSender : MonoBehaviour
     private float masterDelay;
     public float idleTime = 60f;
     public float pauseTime = 20f;
+    public char[] dataToSend = { '1', '2' };
 
     void OnEnable()
     {
@@ -48,6 +49,7 @@ public class VideoManagerSender : MonoBehaviour
     void Update()
     {
         PlayVideo();
+        PlayVideo2();
         CheckPlay();
         CheckIdle();
     }
@@ -67,6 +69,7 @@ public class VideoManagerSender : MonoBehaviour
             if (player.isPlaying == false && playerB.isPlaying == false)
             {
                 StartPlayVideo(player, "SendMessage1ToSlaves");
+                Debug.Log("Playing by Idle time");
             }
         }
     }
@@ -76,6 +79,24 @@ public class VideoManagerSender : MonoBehaviour
     {
         string data = arduinoCommunicationReceiver.GetLastestNewData(1.0f);
         int value;
+        if (int.TryParse(data, out value))
+        {
+            if (value == 1)
+            {
+                StartPlayVideo(player, "SendMessage1ToSlaves");
+            }
+            else if (value == 2)
+            {
+                StartPlayVideo(playerB, "SendMessage2ToSlaves");
+            }
+        }
+    }
+
+    void PlayVideo2()
+    {
+        string data = arduinoCommunicationSender.GetLastestNewData(1.0f);
+        int value;
+
         if (int.TryParse(data, out value))
         {
             if (value == 1)
@@ -116,19 +137,19 @@ public class VideoManagerSender : MonoBehaviour
                 Invoke(methodName, masterDelay);
                 Debug.Log("Vídeo A reproduzido em: " + lastPlayTime);
             }
-
         }
     }
 
     public void SendMessage1ToSlaves()
     {
-        int message = 1;
-        arduinoCommunicationSender.SendMessageToSlaves(message.ToString());
+        arduinoCommunicationSender.SendMessageToSlaves(dataToSend, 0, 1);
+        Debug.Log("Sending message to Slaves: 1");
+
     }
 
     public void SendMessage2ToSlaves()
     {
-        int message = 2;
-        arduinoCommunicationSender.SendMessageToSlaves(message.ToString());
+        arduinoCommunicationSender.SendMessageToSlaves(dataToSend, 1, 1);
+        Debug.Log("Sending message to Slaves: 2");
     }
 }
